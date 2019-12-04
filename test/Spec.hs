@@ -1,8 +1,10 @@
+import qualified Data.HashSet as H
 import Data.Vector (freeze, fromList)
 import Test.Hspec
 import Day1
 import Day2
 import Day3
+import Day4
 
 main :: IO ()
 main = hspec $ do
@@ -44,6 +46,18 @@ main = hspec $ do
       it "follows a path" $ do
         getPath [Move U 1, Move R 3] `shouldBe` [Point 3 1, Point 2 1, Point 1 1, Point 0 1, Point 0 0]
       it "gets intersections" $ do
-        getIntersections [] [] `shouldBe` []
-        getIntersections [] [Point 0 0] `shouldBe` []
-        getIntersections [Point 1 2, Point 2 2, Point 2 3] [Point 0 2, Point 1 2, Point 2 3] `shouldBe` [Point 1 2, Point 2 3]
+        getIntersections [] [] `shouldBe` H.empty
+        getIntersections [] [Point 0 0] `shouldBe` H.empty
+        getIntersections [Point 1 2, Point 2 2, Point 2 3] [Point 0 2, Point 1 2, Point 2 3] `shouldBe` (H.fromList [Point 1 2, Point 2 3])
+    describe "day4" $ do
+      describe "testNum" $ do
+        it "tests numbers" $ do
+          testNum 111111 `shouldBe` True
+          testNum 223450 `shouldBe` False
+          testNum 123789 `shouldBe` False
+          testNum 122345 `shouldBe` True
+          testNum 111123 `shouldBe` True
+        it "tests numbers for part 2" $ do
+          p2Test "112233" `shouldBe` True
+          p2Test "123444" `shouldBe` False
+          p2Test "111122" `shouldBe` True
